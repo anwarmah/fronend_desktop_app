@@ -1,0 +1,43 @@
+:root {
+  // Colors, borrowed from:
+  // https://www.figma.com/blog/introducing-figma-community/
+  --black: #000000;
+  --blue: #6b9bf7;
+  --gray-light: #eee;
+  --gray: #585858;
+  --green: #0faa56;
+  --purple: #5551ff;
+  --red: #f24E1F;
+  --white: #ffffff;
+  --yellow: #ffc700;
+}
+
+*,
+*:after,
+*:before {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  height: 100%;
+  line-height: 1.25;
+  width: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+h1, h3, h4 {
+  background-color: rgba(0, 0, 0, 0.03);
+  color: #00000070;
+  margin: 0;
+  width: 100%;
+  padding: 1em;
+  border-bottom: 1px solid darkgray;
+  border-top: 1px solid darkgray;
+}

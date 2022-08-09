@@ -1,0 +1,113 @@
+.Job {
+  display: grid;
+  grid-template-columns: 100% 0;
+  overflow-x: auto;
+  position: relative;
+  scroll-snap-type: both mandatory;
+  scroll-snap-align: end;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.Job-action-count-1 {
+  grid-template-columns: 100% 56px;
+}
+.Job-action-count-2 {
+  grid-template-columns: 100% 56px 56px;
+}
+
+.Job-actions {
+  align-items: center;
+  background-color: green;
+  cursor: pointer;
+  display: flex;
+  .Job-snooze {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    &:hover {
+      background-color: darkgreen;
+    }
+    img {
+      display: block;
+      padding: 10px;
+      margin-left: 4px;
+      height: 44px;
+      width: 48px;
+    }
+  }
+}
+
+/// Icons
+.Job-icon {
+  color: var(--gray);
+  left: .75rem;
+  position: absolute;
+  top: .6rem;
+  // padding: 1rem 0 1rem;
+}
+.Job-icon-ok {
+  color: var(--green);
+}
+.Job-icon-error {
+  color: var(--red);
+}
+
+/// Content
+.Job-content {
+  padding: 1rem .75rem 1rem 3.5rem;
+}
+
+.Job-content-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.Job-next-run {
+  color: var(--gray);
+  display: inline-block;
+  margin-left: .5rem;
+}
+.Job-message {
+  color: var(--red);
+  margin-top: .625rem;
+  overflow: scroll;
+}
+
+.icono-sync {
+  animation: rotate 500ms linear infinite;
+}
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+
+}
+
+.grippy {
+  color: darkgray;
+  content: '....';
+  cursor: move;
+  display: inline-block;
+  font-family: sans-serif;
+  font-size: 12px;
+  height: 20px;
+  letter-spacing: 2px;
+  line-height: 5px;
+  overflow: hidden;
+  padding: 3px 4px;
+  position: absolute;
+  right: 0;
+  top: 12px;
+  vertical-align: middle;
+  width: 14px;
+}
+.grippy::after {
+  content: '.. .. .. ..';
+}

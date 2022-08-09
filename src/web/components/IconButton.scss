@@ -1,0 +1,22 @@
+.IconButton {
+  background: none;
+  border: none;
+  color: var(--black);
+  cursor: pointer;
+  display: inline-block;
+  font: inherit;
+  line-height: 1;
+  margin: 0;
+  padding: .125rem;
+  text-align: center;
+  transition: background 150ms;
+
+  &:active,
+  &:hover {
+    background: var(--gray-light);
+  }
+
+  i {
+    transform: scale(.6);
+  }
+}

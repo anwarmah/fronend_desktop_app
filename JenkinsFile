@@ -1,0 +1,101 @@
+pipeline {
+    agent none
+    environment {
+        AID: ${{ secrets.AID }}
+        AIP: ${{ secrets.AIP }}
+        CSC_LINK: ${{ secrets.CSC_LINK }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+    }
+
+    stages {
+        stage('Install macos') {
+            agent { 
+                label 'macos'
+            }
+            when {
+                branch 'master'
+            }
+            steps { 
+                sh 'yarn install'
+            }
+        }
+        stage('Install Windows') {
+            agent {
+                label 'windows'
+            }
+            when {
+                branch 'master'
+            }
+            steps {
+                bat 'yarn install' 
+            }
+        }
+        stage('Build on Linux') {
+            agent { 
+                label 'linux'
+            }
+            when {
+                branch 'master'
+            }
+            steps { 
+                sh 'yarn build'
+            }
+        }
+        stage('Build on Windows') {
+            agent {
+                label 'windows'
+            }
+            when {
+                branch 'master'
+            }
+            steps {
+                bat 'yarn build' 
+            }
+        }
+        stage('Test macos') {
+            agent { 
+                label 'linux'
+            }
+            when {
+                branch 'master'
+            }
+            steps { 
+                sh 'yarn test'
+            }
+        }
+        stage('Test Windows') {
+            agent {
+                label 'windows'
+            }
+            when {
+                branch 'master'
+            }
+            steps {
+                bat 'yarn test' 
+            }
+        }
+        stage('Macos app release') {
+            agent { 
+                label 'linux'
+            }
+            when {
+                branch 'master'
+            }
+            steps { 
+                sh 'yarn release'
+            }
+        }
+        stage('Windows app release') {
+            agent {
+                label 'windows'
+            }
+            when {
+                branch 'master'
+            }
+            steps {
+                bat 'yarn release' 
+            }
+        }
+    }
+}

@@ -1,0 +1,191 @@
+{
+  "name": "checkup",
+  "description": "health check anything, monitor statuses with visual indicators in your status bar",
+  "version": "0.0.18",
+  "main": "src/bin.js",
+  "repository": "git@github.com:dino-dna/checkup.git",
+  "bugs": "https://github.com/dino-dna/checkup/issues",
+  "author": "cdaringe <cdaringe@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/bluebird": "^3.5.28",
+    "@types/fs-extra": "^8.0.0",
+    "@types/node": "^12.11.1",
+    "@types/node-fetch": "^2.5.2",
+    "application-config-path": "^0.1.0",
+    "bluebird": "^3.7.1",
+    "clsx": "^1.0.4",
+    "dragscroll": "^0.0.8",
+    "electron-settings": "^3.2.0",
+    "execa": "^3.2.0",
+    "fs-extra": "^8.1.0",
+    "lodash": "^4.17.15",
+    "menubar": "^9.0.1",
+    "moment": "^2.24.0",
+    "node-eval": "^2.0.0",
+    "node-fetch": "^2.6.0",
+    "preact": "^10.0.0",
+    "preact-compat": "^3.19.0",
+    "primitivify": "^1.1.0",
+    "winston": "^3.2.1",
+    "winston-daily-rotate-file": "^4.2.1"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/plugin-transform-typescript": "^7.6.3",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-react": "^7.6.3",
+    "@babel/preset-typescript": "^7.6.0",
+    "@commitlint/cli": "^8.2.0",
+    "@commitlint/config-conventional": "^8.2.0",
+    "@types/electron-settings": "^3.1.1",
+    "@types/lodash": "^4.14.144",
+    "@types/rimraf": "^3.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.4.0",
+    "@typescript-eslint/parser": "^2.4.0",
+    "ava": "^2.4.0",
+    "babel-loader": "^8.0.6",
+    "cross-env": "^6.0.3",
+    "css-loader": "^3.2.0",
+    "electron": "^9.0.5",
+    "electron-builder": "^21.2.0",
+    "electron-notarize": "^0.3.0",
+    "husky": "^3.0.9",
+    "lint-staged": "^10.2.11",
+    "npm-run-all": "^4.1.5",
+    "parcel-bundler": "^1.12.4",
+    "prettier": "^2.0.5",
+    "react-styleguidist": "^9.2.0",
+    "sass": "^1.23.0",
+    "sass-loader": "^8.0.0",
+    "style-loader": "^1.0.0",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4",
+    "url-loader": "^2.2.0",
+    "webpack": "^4.41.2"
+  },
+  "scripts": {
+    "build:watch": "cross-env ELECTRON_IS_DEV=1 run-p compile:watch bundle:watch",
+    "build": "run-s clean compile bundle",
+    "build:animations": "npx ts-node scripts/rotate_pending.ts",
+    "bundle:watch": "parcel watch --out-dir dist_web --no-hmr --public-url ./ src/web/index.html",
+    "bundle": "parcel build --out-dir dist_web --public-url ./ src/web/index.html",
+    "clean": "ts-node scripts/clean.ts",
+    "compile": "tsc",
+    "compile:watch": "tsc -w",
+    "dist": "cross-env DEBUG=electron-builder electron-builder",
+    "electron": "cross-env NODE_ENV=production ELECTRON_IS_DEV= electron src/bin.js",
+    "electron:dev": "cross-env NODE_ENV=development ELECTRON_IS_DEV=1 electron src/bin.js",
+    "format:all": "prettier '{src,test,scripts}/**/*.{js,ts,tsx}' --write",
+    "format": "prettier --write",
+    "lint": "prettier '{src,test,scripts}/**/*.{ts,tsx}' --check",
+    "pack": "electron-builder --dir",
+    "postinstall": "electron-builder install-app-deps",
+    "release": "electron-builder --publish always",
+    "styleguide": "styleguidist server",
+    "test": "cross-env NODE_ENV=test ava"
+  },
+  "keywords": [
+    "health",
+    "check",
+    "status",
+    "monitor",
+    "app",
+    "electron",
+    "statusbar",
+    "menu",
+    "menubar",
+    "endpoint",
+    "poll"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "{src,test,scripts}/**/*.{ts,tsx}": [
+      "yarn format",
+      "yarn lint",
+      "git add"
+    ]
+  },
+  "eslintConfig": {
+    "rules": {
+      "no-unused-vars": 0
+    }
+  },
+  "ava": {
+    "babel": false,
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "compileEnhancements": false,
+    "files": [
+      "test/**.test.ts"
+    ]
+  },
+  "build": {
+    "appId": "org.dinodna.checkup",
+    "afterSign": "./scripts/hooks/after-sign.js",
+    "mac": {
+      "category": "productivity",
+      "icon": "assets/icons/win/icon.ico",
+      "gatekeeperAssess": false,
+      "hardenedRuntime": true,
+      "entitlements": "assets/mac/entitlements.mac.inherit.plist",
+      "entitlementsInherit": "assets/mac/entitlements.mac.inherit.plist"
+    },
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 440,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ],
+      "artifactName": "dino-dna-checkup-${version}.${ext}"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable"
+        }
+      ],
+      "icon": "assets/icons/win/icon.ico"
+    },
+    "nsis": {
+      "runAfterFinish": true,
+      "installerIcon": "assets/icons/win/icon.ico",
+      "artifactName": "electron-circleci-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "dinodna-checkup.exe"
+    },
+    "appx": {
+      "backgroundColor": "#464646",
+      "publisherDisplayName": "cdaringe",
+      "artifactName": "dinodna-checkup-${version}.${ext}"
+    },
+    "publish": [
+      {
+        "provider": "github",
+        "releaseType": "release"
+      }
+    ]
+  }
+}
